@@ -1,0 +1,32 @@
+{
+  "name": "drop_in_chat_server",
+  "version": "0.0.1",
+  "description": "server implementation for the Drop in Char",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wutzi15/DropInChat.git"
+  },
+  "keywords": [
+    "chat",
+    "dropin"
+  ],
+  "author": "Benedikt Bergenthal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wutzi15/DropInChat/issues"
+  },
+  "homepage": "https://github.com/wutzi15/DropInChat#readme",
+  "dependencies": {
+    "@graphql-yoga/node": "^2.6.0",
+    "graphql": "^16.5.0",
+    "graphql-yoga": "^2.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
