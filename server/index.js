@@ -25,6 +25,38 @@ const {
     PubSub
 } = require('graphql-subscriptions');
 
+const Sentry = require("@sentry/node");
+const Tracing = require("@sentry/tracing");
+const winston = require('winston');
+const SentryWinston = require('winston-sentry-log');
+require('dotenv').config()
+
+const options = {
+  config: {
+    dsn: process.env.SENTRY_DSN
+  },
+  level: "info"
+};
+
+const logger = winston.createLogger({
+    transports: [new SentryWinston(options),
+    new winston.transports.Console(),]
+});
+
+Sentry.init({
+  dsn: process.env.SENTRY_DSN,
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
+
+const transaction = Sentry.startTransaction({
+  op: "test",
+  name: "My First Test Transaction",
+});
+
 
 const typeDefs = gql `
     type Chat {
@@ -144,7 +176,7 @@ async function startApolloServer(typeDefs, resolvers) {
     const PORT = 4000;
     // Now that our HTTP server is fully set up, we can listen to it.
     httpServer.listen(PORT, () => {
-        console.log(
+        logger.info(
             `Server is now running on http://localhost:${PORT}${server.graphqlPath}`,
         );
     });
@@ -152,5 +184,5 @@ async function startApolloServer(typeDefs, resolvers) {
 
 (async () => {
     await startApolloServer(typeDefs, resolvers);
-    console.log('Server started');
+    logger.info('Server started');
 })();
